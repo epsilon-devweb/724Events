@@ -13,7 +13,20 @@ import Modal from "../../containers/Modal";
 import { useData } from "../../contexts/DataContext";
 
 const Page = () => {
-  const {last} = useData()
+  const data = useData()?.data
+
+  const last = data?.events?.reduce((latest, current) =>
+    new Date(current.date) > new Date(latest.date) ? current : latest
+  , data?.events?.[0]);
+
+  // const events = data?.events ?? [];
+  // const last = events.length
+  //   ? events.reduce((latest, current) =>
+  //       new Date(current.date) > new Date(latest.date) ? current : latest
+  //     )
+  //   : null;
+
+  
   return <>
     <header>
       <Menu />
@@ -115,15 +128,20 @@ const Page = () => {
     </main>
     <footer className="row">
       <div className="col presta">
-        <h3>Notre derniére prestation</h3>
-        <EventCard
-          imageSrc={last?.cover}
-          title={last?.title}
-          date={new Date(last?.date)}
-          small
-          label="boom"
-        />
-      </div>
+  <h3>Notre dernière prestation</h3>
+  {last ? (
+    <EventCard
+      imageSrc={last.cover}
+      title={last.title}
+      date={new Date(last.date)}
+      small
+      label="boom"
+    />
+  ) : (
+    <p>Aucune prestation disponible pour le moment.</p>
+  )}
+</div>
+
       <div className="col contact">
         <h3>Contactez-nous</h3>
         <address>45 avenue de la République, 75000 Paris</address>
