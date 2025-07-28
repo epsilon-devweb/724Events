@@ -123,7 +123,7 @@ const Page = () => {
       title={last.title}
       date={new Date(last.date)}
       small
-      label="boom"
+      label={last.type}
     />
   ) : (
     <p>Aucune prestation disponible pour le moment.</p>
